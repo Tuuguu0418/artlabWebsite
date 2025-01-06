@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useContext,
+  useMemo,
+} from "react";
 import Image from "next/image";
 import styles from "./style.module.css";
 import { HiArrowLongRight } from "react-icons/hi2";
@@ -18,24 +24,27 @@ function throttle(func, delay) {
 
 const SolutionsComponent = () => {
   const { language } = useContext(LanguageContext);
-  const contents = [
-    {
-      title: language === "MN" ? "Санхүү, НББ" : "Finance and Accounting",
-      imageUrl: "/img/others/",
-    },
-    {
-      title: language === "MN" ? "Цалин" : "Salary",
-      imageUrl: "",
-    },
-    {
-      title: language === "MN" ? "Кассын систем" : "Point of Sales Salary",
-      imageUrl: "",
-    },
-    {
-      title: language === "MN" ? "Түгээлт" : "Distribution",
-      imageUrl: "",
-    },
-  ];
+  const contents = useMemo(
+    () => [
+      {
+        title: language === "MN" ? "Санхүү, НББ" : "Finance and Accounting",
+        imageUrl: "/img/others/",
+      },
+      {
+        title: language === "MN" ? "Цалин" : "Salary",
+        imageUrl: "",
+      },
+      {
+        title: language === "MN" ? "Кассын систем" : "Point of Sales Salary",
+        imageUrl: "",
+      },
+      {
+        title: language === "MN" ? "Түгээлт" : "Distribution",
+        imageUrl: "",
+      },
+    ],
+    [language]
+  );
 
   const [rotates, setRotates] = useState(contents.map(() => ({ x: 0, y: 0 })));
   const [hoveredIndex, setHoveredIndex] = useState(null); // Track the hover state
@@ -75,7 +84,7 @@ const SolutionsComponent = () => {
       // Reset all rotations when no card is hovered
       setRotates(contents.map(() => ({ x: 0, y: 0 })));
     }
-  }, [hoveredIndex]);
+  }, [hoveredIndex, contents]);
 
   useEffect(() => {
     const cards = document.querySelectorAll(`.${styles.glowCard}`);

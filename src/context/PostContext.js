@@ -34,9 +34,16 @@ export const PostProvider = (props) => {
 
   const handleContentChange = (value) => {
     setContent(value);
+    setNewsData((prevState) => ({
+      ...prevState,
+      body: value, // Update the body with every change in the editor
+    }));
   };
   const handleBodySave = () => {
-    setNewsData({ ...newsData, body: content });
+    setNewsData((prevState) => ({
+      ...prevState,
+      body: content,
+    }));
   };
 
   const checkToken = async () => {

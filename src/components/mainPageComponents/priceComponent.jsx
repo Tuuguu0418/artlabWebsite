@@ -1,32 +1,36 @@
+import { LanguageContext } from "@/context/LanguageContext";
+import { data } from "@/utils/mainpagelanguage";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { LanguageContext } from "@/context/LanguageContext";
-import { data } from "@/utils/mainpagelanguage";
 
 const PriceComponent = () => {
   // Үнийн мэдээлэл тооцоо бодох
-  const [numUsers, setNumUsers] = useState();
+  const [numUsersBases, setNumUsersBases] = useState({
+    numUsers: 0,
+    numBases: 0,
+  });
+  const [usersBasesCost, setUsersBasesCost] = useState({
+    userCost: 0,
+    baseCost: 0,
+  });
   const [totalCost, setTotalCost] = useState(0);
   const [breakdown, setBreakdown] = useState([]);
   const [showTransition, setShowTransition] = useState(false);
 
   const handleInputChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value)) {
-      setNumUsers(value);
-      setShowTransition(false);
-    } else {
-      setNumUsers(0);
-    }
+    const { name, value } = e.target;
+    setNumUsersBases({ ...numUsersBases, [name]: value });
+    setShowTransition(false);
   };
 
-  const calculateCost = () => {
-    if (numUsers < 10000) {
+  const calculateCost = async () => {
+    if (numUsersBases.numUsers < 5000 && numUsersBases.numBases < 1000) {
       let cost = 0;
       let details = [];
-      let users = numUsers;
-      let totalUsers = numUsers;
+      let users = numUsersBases.numUsers;
+      let totalUsers = numUsersBases.numUsers;
+      let totalBaseCost = numUsersBases.numBases * 100000;
 
       if (totalUsers >= 1) {
         const user1 = Math.min(users, 1);
@@ -88,23 +92,51 @@ const PriceComponent = () => {
         });
       }
 
+      await setUsersBasesCost((prev) => ({ ...prev, userCost: cost }));
+      setUsersBasesCost((prev) => ({ ...prev, baseCost: totalBaseCost }));
+
+      cost += totalBaseCost;
       setTotalCost(cost);
       setBreakdown(details);
       setShowTransition(true);
-    } else if (numUsers === "Хэрэглэгч") {
+    } else if (
+      numUsersBases.numUsers >= 5000 ||
+      numUsersBases.numBases >= 1000
+    ) {
+      toast.error(
+        "Та хэрэглэгчийн тоог 5000-аас бага баазын тоог 1000-аас бага оруулна уу",
+        {
+          position: "top-center",
+        }
+      );
       setTotalCost(0);
       setBreakdown([]);
       setShowTransition(false);
     } else {
-      toast.error("Та 5000-аас бага тоо оруулна уу");
       setTotalCost(0);
       setBreakdown([]);
       setShowTransition(false);
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      calculateCost();
+    }
+  };
+
   const getClass = (min) => {
-    return numUsers >= min && showTransition ? "border-sky-700" : "";
+    return numUsersBases.numUsers >= min && showTransition
+      ? "border-sky-700"
+      : "";
+  };
+
+  const getBaseClass = (number) => {
+    return number > 0 ? "text-white" : "text-white/50";
+  };
+
+  const getBaseInputClass = (number) => {
+    return number > 0 ? "brightness-100" : "brightness-50";
   };
 
   // Хэл солих хэсэг
@@ -178,19 +210,38 @@ const PriceComponent = () => {
         <div className="flex flex-row mt-2">
           <input
             type="number"
+            name="numUsers"
             className="bg-black text-white border rounded-lg w-full mr-2 text-center"
             placeholder={content.price.textNumUsers}
-            value={numUsers}
+            onKeyDown={handleKeyDown}
             onChange={handleInputChange}
             onBlur={calculateCost}
           />
           <button
-            className="ml-4 bg-sky-500 rounded-md py-3 px-6"
+            className="w-1/2 bg-sky-500 rounded-md py-3 px-6 hover:bg-sky-800 duration-200"
             onClick={calculateCost}
           >
             {content.price.textButton}
           </button>
         </div>
+        {/* <div className="flex justify-end gap-3 mt-3">
+          <p className={`${getBaseClass(numUsersBases.numBases)}`}>
+            {content.price.textNumBases}
+          </p>
+          <input
+            type="range"
+            name="numBases"
+            min={0}
+            max={5}
+            defaultValue={0}
+            placeholder={content.price.textNumBases}
+            className={`w-1/3 ${getBaseInputClass(numUsersBases.numBases)}`}
+            onChange={handleInputChange}
+          />
+          <p className={`w-5 ${getBaseClass(numUsersBases.numBases)}`}>
+            {numUsersBases.numBases}
+          </p>
+        </div> */}
         <div className="flex flex-col mt-6 mx-1">
           {breakdown.map((item, index) => (
             <div className="flex justify-between pb-3" key={index}>
@@ -223,8 +274,16 @@ const PriceComponent = () => {
             <p>{content.price.text4}</p>
             <p>{content.price.textFree}</p>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between pb-3">
             <p>{content.price.text5}</p>
+            <p>{usersBasesCost.userCost.toLocaleString()}&#8366;</p>
+          </div>
+          {/* <div className="flex justify-between pb-3">
+            <p>{content.price.text6}</p>
+            <p>{usersBasesCost.baseCost.toLocaleString()}&#8366;</p>
+          </div> */}
+          <div className="flex justify-between">
+            <p>{content.price.text7}</p>
             <p>{totalCost.toLocaleString()}&#8366;</p>
           </div>
         </div>

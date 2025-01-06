@@ -24,7 +24,6 @@ const NewsShow = ({ params }) => {
           const data = await response.json();
           if (!data.success || !response.ok) {
             notFound(); // If the success is false, show a 404 page
-            return;
           }
 
           setNewsItem({

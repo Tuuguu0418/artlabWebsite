@@ -4,10 +4,8 @@ import React, { useContext } from "react";
 import Cookies from "js-cookie";
 import ProductComponent from "@/components/productComponent";
 import AdminPanelProductDB from "@/components/adminPanelPages/NewsEdit/page";
-import SeeEditNewsShow from "@/components/adminPanelPages/SeeEditedNews/page";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import PostContext from "@/context/PostContext";
 
 import { HiOutlineHome } from "react-icons/hi2";
 import { PiMonitorLight } from "react-icons/pi";
@@ -16,7 +14,6 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { AiOutlineLink } from "react-icons/ai";
 
 const AdminPanel = () => {
-  const postContext = useContext(PostContext);
   const router = useRouter();
   const [menu, SetMenu] = React.useState("Post");
 
@@ -29,7 +26,7 @@ const AdminPanel = () => {
       case "Post":
         return <AdminPanelProductDB />;
       case "Settings":
-        return <SeeEditNewsShow />;
+        return <div>Settings...</div>;
       default:
         return <div>Something...</div>;
     }

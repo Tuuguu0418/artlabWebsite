@@ -9,7 +9,7 @@ export async function POST(req) {
   };
 
   try {
-    const response = await fetch("https://api.artlab.mn/v2/auth/login", {
+    const response = await fetch(`${process.env.NEXT_API_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

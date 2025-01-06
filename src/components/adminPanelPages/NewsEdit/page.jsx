@@ -1,11 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
-import Image from "next/image";
-import dynamic from "next/dynamic";
-import SeeEditNewsShow from "../SeeEditedNews/page";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import AddNews from "../AddNewNews/page";
 import PostContext from "@/context/PostContext";
 
-import { Input, Textarea, Select, SelectItem, Switch } from "@nextui-org/react";
 import {
   Dropdown,
   DropdownTrigger,
@@ -18,36 +14,9 @@ import {
 import { NextUIProvider } from "@nextui-org/react";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import Cookies from "js-cookie";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { TailSpin } from "react-loader-spinner";
-
-const JoditEditor = dynamic(
-  () => import("jodit-react").then((mod) => mod.default),
-  { ssr: false }
-);
-const JoditEditorWithRef = React.forwardRef((props, ref) => (
-  <JoditEditor ref={ref} {...props} />
-));
 
 const AdminPanelProductDB = () => {
   const postContext = useContext(PostContext);
-
-  // JoditEditor
-  const editor = React.useRef(null); //declared a null value
-  const config = React.useMemo(
-    //  Using of useMemo while make custom configuration is strictly recomended
-    () => ({
-      //  if you don't use it the editor will lose focus every time when you make any change to the editor, even an addition of one character
-      /* Custom image uploader button configuretion to accept image and convert it to base64 format */
-      uploader: {
-        insertImageAsBase64URI: true,
-        imagesExtensions: ["jpg", "png", "jpeg", "gif", "svg", "webp"], // this line is not much important , use if you only strictly want to allow some specific image format
-      },
-    }),
-    []
-  );
 
   const [arr, setArr] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -76,7 +45,7 @@ const AdminPanelProductDB = () => {
   };
 
   // Edit hiih medeenudig bugdig ni awc arr-d hiih heseg
-  const doSearch = async () => {
+  const doSearch = useCallback(async () => {
     try {
       const query = new URLSearchParams(searchOptions).toString();
       const results = await fetch(`/api/getAllPosts?${query}`, {
@@ -95,7 +64,7 @@ const AdminPanelProductDB = () => {
     } catch (error) {
       console.log("There is a error: " + error);
     }
-  };
+  }, [searchOptions]);
 
   useEffect(() => {
     const seeData = async () => {
@@ -104,41 +73,7 @@ const AdminPanelProductDB = () => {
     };
 
     seeData();
-  }, []);
-
-  const updatePost = async () => {
-    await postContext.checkToken();
-    const token = Cookies.get("token");
-    if (token) {
-      postContext.setIsLoading(true);
-      try {
-        const response = await fetch("/api/updatePost", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postContext.newsData),
-        });
-
-        const resData = await response.json();
-        console.log(resData);
-        if (!resData.success) {
-          toast.warning("Post update failed", {
-            position: "top-center",
-          });
-          return;
-        }
-
-        toast.success(`Post update success`, {
-          position: "top-center",
-        });
-      } catch (err) {
-        console.log("Мэдээг шинэчлэл хийхэд асуудал гарлаа: ", err.message);
-      } finally {
-        postContext.setIsLoading(false);
-      }
-    }
-  };
+  }, [doSearch]);
 
   // Edit hiih medeeni data-g postContext-iin state ruu oruulj bn
   const setNewsInformation = (data) => {
@@ -244,12 +179,12 @@ const AdminPanelProductDB = () => {
                   <DropdownItem key="0">Inactive</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              <button
+              {/* <button
                 className="bg-sky-500 text-white rounded-md p-1.5 border border-transparent hover:bg-white hover:text-sky-500 duration-300 hover:border-sky-500"
                 onClick={() => doSearch()}
               >
                 Search
-              </button>
+              </button> */}
               <button
                 className="w-1/4 bg-neutral-300 text-white rounded-md p-1.5 border border-transparent hover:bg-white hover:text-neutral-500 hover:border-neutral-500 duration-300"
                 onClick={() => clearFields()}

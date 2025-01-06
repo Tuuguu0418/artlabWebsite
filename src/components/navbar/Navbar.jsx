@@ -1,22 +1,19 @@
 "use client";
 
-import * as React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { CiCircleQuestion } from "react-icons/ci";
-import { FaBarsStaggered } from "react-icons/fa6";
-import { FaX } from "react-icons/fa6";
-import { IoIosArrowDown } from "react-icons/io";
 import { LanguageContext } from "@/context/LanguageContext";
-import { NextUIProvider } from "@nextui-org/react";
-import { usePathname, useRouter } from "next/navigation";
 import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
 } from "@nextui-org/react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import * as React from "react";
+import { FaBarsStaggered, FaX } from "react-icons/fa6";
+import { IoIosArrowDown } from "react-icons/io";
+import ThemeSwitch from "../ThemeSwitch";
 
 const Navigationbar = () => {
   const { language, setLanguage } = React.useContext(LanguageContext);
@@ -28,6 +25,7 @@ const Navigationbar = () => {
   };
 
   const [textColor, setTextColor] = React.useState("text-white");
+  const [imgPath, setImgPath] = React.useState("/img/logo/artlabLogo2.png");
 
   const updateTextColor = (path) => {
     if (
@@ -38,6 +36,7 @@ const Navigationbar = () => {
       path.startsWith("/test/")
     ) {
       setTextColor("text-black");
+      setImgPath("/img/logo/artlabLogoBlack2.png");
     } else {
       setTextColor("text-white");
     }
@@ -62,6 +61,11 @@ const Navigationbar = () => {
           scrollPosition < sectionTop + sectionHeight
         ) {
           setTextColor(sectionTextColor);
+          if (sectionTextColor === "text-black") {
+            setImgPath("/img/logo/artlabLogoBlack2.png");
+          } else if (sectionTextColor === "text-white") {
+            setImgPath("/img/logo/artlabLogo2.png");
+          }
         }
       });
     };
@@ -116,7 +120,8 @@ const Navigationbar = () => {
     };
   }, [pathname, previousUrl, router]);
 
-  const isAdminRoute = pathname.startsWith("/admin");
+  const isAdminRoute =
+    pathname.startsWith("/admin") || pathname.startsWith("/social");
 
   const links1 = [
     {
@@ -152,9 +157,14 @@ const Navigationbar = () => {
   ];
 
   const links2 = [
+    // {
+    //   id: "5",
+    //   link: <CiCircleQuestion size={20} />,
+    //   href: "/faq",
+    // },
     {
       id: "5",
-      link: <CiCircleQuestion size={20} />,
+      link: <ThemeSwitch size={20} />,
       href: "/faq",
     },
     {
@@ -165,50 +175,134 @@ const Navigationbar = () => {
   ];
 
   return (
-    <NextUIProvider className={`${isAdminRoute ? "hidden" : ""}`}>
-      <nav
-        className={`w-full backdrop-blur-lg ${textColor} fixed z-30 text-xs 2xl:text-base font-medium py-1 px-5 transition-colors duration-200`}
-      >
-        <div className="flex flex-row w-full xl:w-4/5 xl:mx-auto justify-between">
-          <div className="flex space-x-8">
-            <a href="/">
-              <Image
-                src="/img/logo/artlablogoBlue.png"
-                alt="artlab logo"
-                height={50}
-                width={100}
-                style={{ width: "auto" }}
-              />
-            </a>
-            <ul className="hidden xl:flex items-center space-x-8 list-none">
+    <nav
+      className={`${
+        isAdminRoute ? "hidden" : ""
+      } w-full backdrop-blur-lg ${textColor} dark:text-black fixed z-30 text-xs 2xl:text-base font-medium py-1 px-5 transition-colors duration-200`}
+    >
+      <div className="flex flex-row w-full xl:w-4/5 xl:mx-auto justify-between">
+        <div className="flex space-x-8">
+          <a href="/">
+            <Image
+              src={imgPath}
+              alt="artlab logo"
+              height={50}
+              width={100}
+              style={{ width: "auto" }}
+              className="transition-all duration-200 mt-1 mix-blend-difference"
+            />
+          </a>
+          <ul className="hidden xl:flex items-center space-x-8 list-none">
+            {links1.map(({ id, link, href }) => (
+              <li key={id}>
+                <a
+                  href={href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation(href);
+                  }}
+                >
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="flex items-center">
+          <ul className="hidden lg:flex space-x-8 items-center list-none">
+            <li>
+              <ThemeSwitch iconSize={15} />
+            </li>
+            {/* <li>
+              <Link href="/faq">
+                <CiCircleQuestion size={20} />
+              </Link>
+            </li> */}
+            <li>
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button
+                    variant="light"
+                    className={`text-xs 2xl:text-base font-semibold ${textColor} dark:text-black z-0`}
+                  >
+                    {language === "MN" ? "MN" : "EN"}
+                    <IoIosArrowDown />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Static Actions"
+                  name="languages"
+                  onAction={handleLanguageChange}
+                >
+                  <DropdownItem key="MN" value="MN" className="text-black">
+                    Mongolian
+                  </DropdownItem>
+                  <DropdownItem key="EN" value="EN" className="text-black">
+                    English
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </li>
+            <li>
+              <a
+                href="/form"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigation("/form");
+                }}
+              >
+                {language === "MN" ? "Гэрээ" : "Contract"}
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://artlab.mn/"
+                target="_blank"
+                className="bg-sky-500 text-white rounded-lg px-4 py-3"
+              >
+                {language === "MN" ? "Нэвтрэх" : "Login"}
+              </a>
+            </li>
+          </ul>
+          <div
+            onClick={() => setNav(!nav)}
+            className={`cursor-pointer ml-8 z-10 ${textColor} xl:hidden dark:text-black`}
+          >
+            {nav ? (
+              <FaX size={20} className="text-white" />
+            ) : (
+              <FaBarsStaggered size={20} />
+            )}
+          </div>
+
+          {nav && (
+            <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-black backdrop-blur-2xl text-white list-none">
               {links1.map(({ id, link, href }) => (
-                <li key={id}>
+                <li
+                  key={id}
+                  className="px-4 cursor-pointer capitalize py-4 text-sm font-medium"
+                >
                   <a
                     href={href}
                     onClick={(e) => {
                       e.preventDefault();
                       handleNavigation(href);
+                      setNav(!nav);
                     }}
                   >
                     {link}
                   </a>
                 </li>
               ))}
-            </ul>
-          </div>
-          <div className="flex items-center">
-            <ul className="hidden lg:flex space-x-8 items-center list-none">
-              <li>
-                <Link href="/faq">
-                  <CiCircleQuestion size={20} />
-                </Link>
+              <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
+                <ThemeSwitch />
               </li>
-              <li>
+              <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
                       variant="light"
-                      className={`text-xs 2xl:text-base font-semibold ${textColor} z-0`}
+                      className={`text-xs 2xl:text-base font-semibold text-white`}
                     >
                       {language === "MN" ? "MN" : "EN"}
                       <IoIosArrowDown />
@@ -227,132 +321,54 @@ const Navigationbar = () => {
                     </DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
-                {/* <select
-                  name="languages"
-                  className="bg-inherit"
-                  value={language}
-                  onChange={handleLanguageChange}
-                >
-                  <option value="MN" className="bg-black text-white">
-                    MN
-                  </option>
-                  <option value="EN" className="bg-black text-white">
-                    EN
-                  </option>
-                </select> */}
               </li>
-              <li>
+              {/* {links2.map(({ id, link, href }) => (
+                <li
+                  key={id}
+                  className="px-4 cursor-pointer capitalize py-4 text-sm font-medium"
+                >
+                  <a
+                    href={href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavigation(href);
+                      setNav(!nav);
+                    }}
+                  >
+                    {link}
+                  </a>
+                </li>
+              ))} */}
+              <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
                 <a
                   href="/form"
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavigation("/form");
+                    setNav(!nav);
                   }}
                 >
                   {language === "MN" ? "Гэрээ" : "Contract"}
                 </a>
               </li>
-              <li>
+              <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
                 <a
                   href="https://artlab.mn/"
-                  target="_blank"
-                  className="bg-sky-500 text-white rounded-lg px-4 py-3"
+                  className="py-3"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation("https://artlab.mn/");
+                    setNav(!nav);
+                  }}
                 >
                   {language === "MN" ? "Нэвтрэх" : "Login"}
                 </a>
               </li>
             </ul>
-            <div
-              onClick={() => setNav(!nav)}
-              className={`cursor-pointer ml-8 z-10 ${textColor} xl:hidden`}
-            >
-              {nav ? (
-                <FaX size={20} className="text-white" />
-              ) : (
-                <FaBarsStaggered size={20} />
-              )}
-            </div>
-
-            {nav && (
-              <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-black backdrop-blur-2xl text-white list-none">
-                {links1.map(({ id, link, href }) => (
-                  <li
-                    key={id}
-                    className="px-4 cursor-pointer capitalize py-4 text-sm font-medium"
-                  >
-                    <a
-                      href={href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigation(href);
-                        setNav(!nav);
-                      }}
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
-                <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button
-                        variant="light"
-                        className={`text-xs 2xl:text-base font-semibold text-white`}
-                      >
-                        {language === "MN" ? "MN" : "EN"}
-                        <IoIosArrowDown />
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      aria-label="Static Actions"
-                      name="languages"
-                      onAction={handleLanguageChange}
-                    >
-                      <DropdownItem key="MN" value="MN" className="text-black">
-                        Mongolian
-                      </DropdownItem>
-                      <DropdownItem key="EN" value="EN" className="text-black">
-                        English
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-                </li>
-                {links2.map(({ id, link, href }) => (
-                  <li
-                    key={id}
-                    className="px-4 cursor-pointer capitalize py-4 text-sm font-medium"
-                  >
-                    <a
-                      href={href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavigation(href);
-                        setNav(!nav);
-                      }}
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
-                <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
-                  <a
-                    href="https://artlab.mn/"
-                    className="py-3"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavigation("https://artlab.mn/");
-                      setNav(!nav);
-                    }}
-                  >
-                    {language === "MN" ? "Нэвтрэх" : "Login"}
-                  </a>
-                </li>
-              </ul>
-            )}
-          </div>
+          )}
         </div>
-      </nav>
-    </NextUIProvider>
+      </div>
+    </nav>
   );
 };
 

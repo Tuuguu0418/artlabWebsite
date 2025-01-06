@@ -114,7 +114,6 @@ const AdminLogin = () => {
                 ) : (
                   "Login"
                 )}
-                <ToastContainer />
               </button>
             </form>
           </div>

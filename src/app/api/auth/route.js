@@ -8,7 +8,7 @@ export async function GET(req) {
   }
 
   try {
-    const response = await fetch("https://api.artlab.mn/v2/auth/check", {
+    const response = await fetch(`${process.env.NEXT_API_URL}/auth/check`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

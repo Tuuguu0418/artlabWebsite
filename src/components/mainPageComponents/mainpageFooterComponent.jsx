@@ -1,15 +1,15 @@
+import { LanguageContext } from "@/context/LanguageContext";
+import { data } from "@/utils/mainpagelanguage";
 import React, { useState } from "react";
 import {
+  FaEnvelope,
   FaFacebook,
   FaInstagram,
   FaTelegram,
-  FaEnvelope,
 } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { LanguageContext } from "@/context/LanguageContext";
-import { data } from "@/utils/mainpagelanguage";
 import { TailSpin } from "react-loader-spinner";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MainpageFooter = () => {
   // Хэл солих хэсэг
@@ -154,6 +154,7 @@ const MainpageFooter = () => {
         </div>
         <div className="flex justify-center sm:block">
           <button
+            disabled={isLoading}
             type="submit"
             className="w-1/3 sm:w-auto rounded-md bg-sky-500 sm:px-4 py-2 mt-5 sm:mt-0"
           >
@@ -168,7 +169,6 @@ const MainpageFooter = () => {
               content.contact.buttonText
             )}
           </button>
-          <ToastContainer />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-0 text-center sm:text-left">

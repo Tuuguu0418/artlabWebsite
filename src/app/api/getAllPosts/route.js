@@ -8,7 +8,7 @@ export async function GET(req) {
 
   try {
     const response = await fetch(
-      `https://api.artlab.mn/inner/web/posts?type=${type}&category=${category}&active=${active}`,
+      `${process.env.NEXT_API_POST_URL}/posts?type=${type}&category=${category}&active=${active}`,
       {
         method: "GET",
         headers: {

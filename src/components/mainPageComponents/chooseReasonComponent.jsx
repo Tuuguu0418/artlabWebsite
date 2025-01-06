@@ -1,5 +1,3 @@
-import React from "react";
-
 const ChooseReason = () => {
   const contents = [
     {
@@ -22,10 +20,13 @@ const ChooseReason = () => {
       <h2 className="border border-black w-fit  py-1 px-6 rounded-2xl text-base">
         сонгох шалтгаан
       </h2>
-      {contents.map((el) => (
-        <div className="flex gap-3 p-5 px-7 rounded-xl group hover:bg-gradient-to-l from-blue-600 to-cyan-500 hover:text-white duration-500">
+      {contents.map((el, index) => (
+        <div
+          key={index}
+          className="flex gap-3 p-5 px-7 rounded-xl group hover:bg-gradient-to-l from-blue-600 to-cyan-500 hover:text-white duration-500"
+        >
           <div className="flex flex-col items-center pt-1">
-            <div className="h-4 w-4 bg-black rounded-xl group-hover:bg-white duration-500 group-hover:translate-y-32"></div>
+            <div className="h-4 w-4 bg-black rounded-xl group-hover:bg-white duration-500 group-hover:translate-y-px"></div>
             <div className="h-full w-px bg-black group-hover:bg-white duration-500"></div>
           </div>
           <div className="flex flex-col gap-5">

@@ -3,7 +3,6 @@ import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
 import FooterComponent from "@/components/FooterComponent";
-import parse from "html-react-parser";
 
 const NewsPage = () => {
   const [arr, setArr] = React.useState([]);
@@ -60,7 +59,7 @@ const NewsPage = () => {
         <div className="w-1/2">
           <div className="flex flex-col gap-4 mb-10">
             <Link
-              href={`/test/${
+              href={`/posts/${
                 currentFirstItem[0] ? currentFirstItem[0].postId : "/news"
               }`}
               className="rounded-3xl shadow-md p-4"
@@ -78,7 +77,7 @@ const NewsPage = () => {
             </Link>
             {currentItems.map((el, index) => (
               <Link
-                href={`/test/${el.postId}`}
+                href={`/posts/${el.postId}`}
                 key={index}
                 className="flex gap-4 rounded-3xl shadow-md p-4"
               >

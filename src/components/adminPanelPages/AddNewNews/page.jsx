@@ -19,7 +19,7 @@ import { NextResponse } from "next/server";
 import Cookies from "js-cookie";
 import parse from "html-react-parser";
 import PostContext from "@/context/PostContext";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TailSpin } from "react-loader-spinner";
 
@@ -30,6 +30,7 @@ const JoditEditor = dynamic(
 const JoditEditorWithRef = React.forwardRef((props, ref) => (
   <JoditEditor ref={ref} {...props} />
 ));
+JoditEditorWithRef.displayName = "JoditEditorWithRef";
 
 const AddNews = ({ seeEditNews }) => {
   const postContext = React.useContext(PostContext);
@@ -55,17 +56,14 @@ const AddNews = ({ seeEditNews }) => {
     if (token) {
       postContext.setIsLoading(true);
       try {
-        const response = await fetch(
-          "https://api.artlab.mn/inner/web/admin/posts",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(postContext.newsData),
-          }
-        );
+        const response = await fetch("/api/updatePost", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(postContext.newsData),
+        });
 
         const data = await response.json();
         if (!data.success) {
@@ -88,6 +86,7 @@ const AddNews = ({ seeEditNews }) => {
       }
     }
   };
+
   return (
     <div className="text-sm text-black mb-10">
       <div className="flex items-center gap-2 mb-8">
@@ -110,7 +109,7 @@ const AddNews = ({ seeEditNews }) => {
           value={postContext.newsData.title}
           onChange={postContext.handleChange}
         />
-        <Input
+        {/* <Input
           key="input-2"
           name="thumbnail"
           label="THUMBNAIL"
@@ -119,7 +118,7 @@ const AddNews = ({ seeEditNews }) => {
           labelPlacement="outside"
           value={postContext.newsData.thumbnail}
           onChange={postContext.handleChange}
-        />
+        /> */}
         <div className="h-full w-full" id="body">
           <label htmlFor="body">BODY</label>
           {/* This is the main initialization of the Jodit editor */}
@@ -131,12 +130,12 @@ const AddNews = ({ seeEditNews }) => {
             className="w-full h-full bg-white text-black"
           />
           <style>{`.jodit-wysiwyg{height:300px !important}`}</style>
-          <button
+          {/* <button
             className="bg-sky-500 w-1/3 p-1 rounded-md text-white mt-1"
             onClick={postContext.handleBodySave}
           >
             Хадгалах
-          </button>
+          </button> */}
         </div>
 
         {/* <div className="my-10 h-full w-full">
@@ -250,7 +249,6 @@ const AddNews = ({ seeEditNews }) => {
               <FaRegSave className="text-xl" /> Save
             </div>
           )}
-          <ToastContainer />
         </button>
       </div>
     </div>

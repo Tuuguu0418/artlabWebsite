@@ -1,13 +1,12 @@
 "use client";
 
-import * as React from "react";
-import { NextUIProvider } from "@nextui-org/react";
-import { Input, Select, SelectItem, Textarea, Button } from "@nextui-org/react";
-import { formDataLanguage } from "@/utils/formPageLanguage";
 import { LanguageContext } from "@/context/LanguageContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { formDataLanguage } from "@/utils/formPageLanguage";
+import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
+import * as React from "react";
 import { TailSpin } from "react-loader-spinner";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Forms = () => {
   const [formData, setFormData] = React.useState({
@@ -181,230 +180,231 @@ const Forms = () => {
       : formDataLanguage[0].language.english;
 
   return (
-    <NextUIProvider>
-      <div className="w-full flex flex-row bg-white pt-20 z-30">
-        <form
-          id="formData"
-          className="w-4/5 lg:w-2/3 mx-auto"
-          onSubmit={handleSubmit}
-        >
-          <div className="w-full bg-white rounded-lg shadow-md my-4 p-8">
-            <p className="text-blue-500 font-bold text-sm lg:text-lg md:text-base">
-              {content.part1.title}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-8 mt-6">
-              <Input
-                isRequired
-                key="input-1"
-                name="companyName"
-                label={content.part1.inputLabel1}
-                labelPlacement="outside"
-                placeholder={content.part1.inputPholder1}
-                onChange={handleChange}
-                {...getValidationProps("companyName")}
-              />
-              <Input
-                isRequired
-                key="input-2"
-                name="companyNameEn"
-                label={content.part1.inputLabel2}
-                labelPlacement="outside"
-                placeholder="Company A"
-                onChange={handleChange}
-                {...getValidationProps("companyNameEn")}
-              />
-              <Input
-                isRequired
-                key="input-3"
-                name="companyRegNum"
-                label={content.part1.inputLabel3}
-                labelPlacement="outside"
-                placeholder={content.part1.inputPholder3}
-                onChange={handleChange}
-                {...getValidationProps("companyRegNum")}
-              />
-              <Input
-                key="input-4"
-                name="activity"
-                label={content.part1.inputLabel4}
-                labelPlacement="outside"
-                placeholder={content.part1.inputPholder4}
-                onChange={handleChange}
-              />
-              <Input
-                isRequired
-                key="input-5"
-                name="phone1"
-                type="number"
-                label={content.part1.inputLabel5}
-                labelPlacement="outside"
-                placeholder={content.part1.inputPholder5}
-                onChange={handleChange}
-                {...getValidationProps("phone1")}
-              />
-              <Input
-                isRequired
-                key="input-6"
-                name="phone2"
-                type="number"
-                label={content.part1.inputLabel6}
-                labelPlacement="outside"
-                placeholder={content.part1.inputPholder6}
-                onChange={handleChange}
-                {...getValidationProps("phone2")}
-              />
-              <Input
-                isRequired
-                key="input-7"
-                name="email"
-                type="email"
-                label={content.part1.inputLabel7}
-                labelPlacement="outside"
-                placeholder={content.part1.inputPholder7}
-                onChange={handleChange}
-                {...getValidationProps("email")}
-              />
-              <Input
-                key="input-8"
-                name="address"
-                label={content.part1.inputLabel8}
-                labelPlacement="outside"
-                placeholder={content.part1.inputPholder8}
-                onChange={handleChange}
-              />
-            </div>
-            <p className="text-blue-500 font-bold mt-8 text-sm md:text-base lg:text-lg">
-              {content.part2.title}
-              <span className="text-slate-500 font-normal">
-                {" "}
-                {content.part2.titleText}
-              </span>
-            </p>
-            <div className="flex flex-col md:flex-row gap-4 gap-x-8 mt-6">
-              <Input
-                isRequired
-                key="input-9"
-                name="position1"
-                label={content.part2.inputLabel1}
-                labelPlacement="outside"
-                placeholder={content.part2.inputPholder1}
-                onChange={handleChange}
-                {...getValidationProps("position1")}
-              />
-              <Input
-                isRequired
-                key="input-10"
-                name="personnel1"
-                placeholder={content.part2.inputPholder2}
-                onChange={handleChange}
-                className="mt-6"
-                {...getValidationProps("personnel1")}
-              />
-            </div>
-            <p className="text-blue-500 font-bold mt-8 text-sm md:text-base lg:text-lg">
-              {content.part3.title}
-            </p>
-            <div className="flex flex-col md:flex-row gap-4 gap-x-8 mt-6">
-              <Input
-                isRequired
-                key="input-11"
-                name="position2"
-                label={content.part3.inputLabel1}
-                labelPlacement="outside"
-                placeholder={content.part3.inputPholder1}
-                onChange={handleChange}
-                {...getValidationProps("position2")}
-              />
-              <Input
-                isRequired
-                key="input-12"
-                name="personnel2"
-                placeholder={content.part3.inputPholder2}
-                onChange={handleChange}
-                className="mt-6"
-                {...getValidationProps("personnel2")}
-              />
-            </div>
-            <p className="text-blue-500 font-bold mt-8 text-sm md:text-base lg:text-lg">
-              {content.part4.title}
-            </p>
-            <div className="flex flex-col lg:flex-row gap-4 gap-x-8 mt-6">
-              <Input
-                className="numberOfUsers"
-                isRequired
-                key="input-13"
-                name="userCount"
-                type="number"
-                inputMode="numeric"
-                label={content.part4.inputLabel1}
-                labelPlacement="outside"
-                placeholder={content.part4.inputPholder1}
-                onChange={handleChange}
-                {...getValidationProps("userCount")}
-              />
-              <Select
-                isRequired
-                key="select-1"
-                name="hasAddDb"
-                labelPlacement="outside"
-                placeholder={content.part4.inputPholder2}
-                label={content.part4.inputLabel2}
-                className="max-w-none"
-                onChange={(e) => handleSelectChange(e.target.value)}
-                {...getValidationProps("hasAddDb")}
-              >
-                <SelectItem className="text-green-500" key="Тийм">
-                  {content.part4.yes}
-                </SelectItem>
-                <SelectItem className="text-red-500" key="Үгүй">
-                  {content.part4.no}
-                </SelectItem>
-              </Select>
-            </div>
-            <div className="mt-6">
-              <Textarea
-                key="textarea-1"
-                name="addDbDesc"
-                labelPlacement="outside"
-                label={content.part5.textAreaLabel1}
-                placeholder="Enter your description"
-                minRows="6"
-                isDisabled={!isAdditionalCompanySelected}
-                onChange={handleChange}
-                className="max-w-none mb-3"
-                {...getValidationProps("addDbDesc")}
-              />
-              <Textarea
-                key="textarea-2"
-                name="note"
-                labelPlacement="outside"
-                label={content.part5.textAreaLabel2}
-                placeholder="Enter your description"
-                minRows="6"
-                onChange={handleChange}
-                className="max-w-none"
-                {...getValidationProps("note")}
-              />
-            </div>
-            <div className="flex flex-row mt-6 justify-end items-end">
-              <Button className="bg-black text-white" type="submit">
-                {isLoading ? (
-                  <TailSpin
-                    height="20"
-                    width="20"
-                    color="#fff"
-                    ariaLabel="loading"
-                  />
-                ) : (
-                  content.part5.buttonText
-                )}
-              </Button>
-              <ToastContainer />
-            </div>
+    <div className="w-full flex flex-row bg-white pt-20 z-30">
+      <form
+        id="formData"
+        className="w-4/5 lg:w-2/3 mx-auto"
+        onSubmit={handleSubmit}
+      >
+        <div className="w-full bg-white rounded-lg shadow-md my-4 p-8">
+          <p className="text-blue-500 font-bold text-sm lg:text-lg md:text-base">
+            {content.part1.title}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 gap-x-8 mt-6">
+            <Input
+              isRequired
+              key="input-1"
+              name="companyName"
+              label={content.part1.inputLabel1}
+              labelPlacement="outside"
+              placeholder={content.part1.inputPholder1}
+              onChange={handleChange}
+              {...getValidationProps("companyName")}
+            />
+            <Input
+              isRequired
+              key="input-2"
+              name="companyNameEn"
+              label={content.part1.inputLabel2}
+              labelPlacement="outside"
+              placeholder="Company A"
+              onChange={handleChange}
+              {...getValidationProps("companyNameEn")}
+            />
+            <Input
+              isRequired
+              key="input-3"
+              name="companyRegNum"
+              label={content.part1.inputLabel3}
+              labelPlacement="outside"
+              placeholder={content.part1.inputPholder3}
+              onChange={handleChange}
+              {...getValidationProps("companyRegNum")}
+            />
+            <Input
+              key="input-4"
+              name="activity"
+              label={content.part1.inputLabel4}
+              labelPlacement="outside"
+              placeholder={content.part1.inputPholder4}
+              onChange={handleChange}
+            />
+            <Input
+              isRequired
+              key="input-5"
+              name="phone1"
+              type="number"
+              label={content.part1.inputLabel5}
+              labelPlacement="outside"
+              placeholder={content.part1.inputPholder5}
+              onChange={handleChange}
+              {...getValidationProps("phone1")}
+            />
+            <Input
+              isRequired
+              key="input-6"
+              name="phone2"
+              type="number"
+              label={content.part1.inputLabel6}
+              labelPlacement="outside"
+              placeholder={content.part1.inputPholder6}
+              onChange={handleChange}
+              {...getValidationProps("phone2")}
+            />
+            <Input
+              isRequired
+              key="input-7"
+              name="email"
+              type="email"
+              label={content.part1.inputLabel7}
+              labelPlacement="outside"
+              placeholder={content.part1.inputPholder7}
+              onChange={handleChange}
+              {...getValidationProps("email")}
+            />
+            <Input
+              key="input-8"
+              name="address"
+              label={content.part1.inputLabel8}
+              labelPlacement="outside"
+              placeholder={content.part1.inputPholder8}
+              onChange={handleChange}
+            />
           </div>
-        </form>
-      </div>
-    </NextUIProvider>
+          <p className="text-blue-500 font-bold mt-8 text-sm md:text-base lg:text-lg">
+            {content.part2.title}
+            <span className="text-slate-500 font-normal">
+              {" "}
+              {content.part2.titleText}
+            </span>
+          </p>
+          <div className="flex flex-col md:flex-row gap-4 gap-x-8 mt-6">
+            <Input
+              isRequired
+              key="input-9"
+              name="position1"
+              label={content.part2.inputLabel1}
+              labelPlacement="outside"
+              placeholder={content.part2.inputPholder1}
+              onChange={handleChange}
+              {...getValidationProps("position1")}
+            />
+            <Input
+              isRequired
+              key="input-10"
+              name="personnel1"
+              placeholder={content.part2.inputPholder2}
+              onChange={handleChange}
+              className="mt-6"
+              {...getValidationProps("personnel1")}
+            />
+          </div>
+          <p className="text-blue-500 font-bold mt-8 text-sm md:text-base lg:text-lg">
+            {content.part3.title}
+          </p>
+          <div className="flex flex-col md:flex-row gap-4 gap-x-8 mt-6">
+            <Input
+              isRequired
+              key="input-11"
+              name="position2"
+              label={content.part3.inputLabel1}
+              labelPlacement="outside"
+              placeholder={content.part3.inputPholder1}
+              onChange={handleChange}
+              {...getValidationProps("position2")}
+            />
+            <Input
+              isRequired
+              key="input-12"
+              name="personnel2"
+              placeholder={content.part3.inputPholder2}
+              onChange={handleChange}
+              className="mt-6"
+              {...getValidationProps("personnel2")}
+            />
+          </div>
+          <p className="text-blue-500 font-bold mt-8 text-sm md:text-base lg:text-lg">
+            {content.part4.title}
+          </p>
+          <div className="flex flex-col lg:flex-row gap-4 gap-x-8 mt-6">
+            <Input
+              className="numberOfUsers"
+              isRequired
+              key="input-13"
+              name="userCount"
+              type="number"
+              inputMode="numeric"
+              label={content.part4.inputLabel1}
+              labelPlacement="outside"
+              placeholder={content.part4.inputPholder1}
+              onChange={handleChange}
+              {...getValidationProps("userCount")}
+            />
+            <Select
+              isRequired
+              key="select-1"
+              name="hasAddDb"
+              labelPlacement="outside"
+              placeholder={content.part4.inputPholder2}
+              label={content.part4.inputLabel2}
+              className="max-w-none"
+              onChange={(e) => handleSelectChange(e.target.value)}
+              {...getValidationProps("hasAddDb")}
+            >
+              <SelectItem className="text-green-500" key="Тийм">
+                {content.part4.yes}
+              </SelectItem>
+              <SelectItem className="text-red-500" key="Үгүй">
+                {content.part4.no}
+              </SelectItem>
+            </Select>
+          </div>
+          <div className="mt-6">
+            <Textarea
+              key="textarea-1"
+              name="addDbDesc"
+              labelPlacement="outside"
+              label={content.part5.textAreaLabel1}
+              placeholder="Enter your description"
+              minRows="6"
+              isDisabled={!isAdditionalCompanySelected}
+              onChange={handleChange}
+              className="max-w-none mb-3"
+              {...getValidationProps("addDbDesc")}
+            />
+            <Textarea
+              key="textarea-2"
+              name="note"
+              labelPlacement="outside"
+              label={content.part5.textAreaLabel2}
+              placeholder="Enter your description"
+              minRows="6"
+              onChange={handleChange}
+              className="max-w-none"
+              {...getValidationProps("note")}
+            />
+          </div>
+          <div className="flex flex-row mt-6 justify-end items-end">
+            <Button
+              isDisabled={isLoading}
+              className="bg-black text-white"
+              type="submit"
+            >
+              {isLoading ? (
+                <TailSpin
+                  height="20"
+                  width="20"
+                  color="#fff"
+                  ariaLabel="loading"
+                />
+              ) : (
+                content.part5.buttonText
+              )}
+            </Button>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };
 

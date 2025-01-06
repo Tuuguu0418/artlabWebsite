@@ -3,22 +3,20 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 
-import { NextUIProvider } from "@nextui-org/react";
 import { Tooltip } from "@nextui-org/react";
-import { WiStars } from "react-icons/wi";
+import { ThemeProvider } from "next-themes";
 import { FaApple, FaGooglePlay } from "react-icons/fa";
-import { IoHardwareChipOutline } from "react-icons/io5";
-import { IoDocumentTextOutline } from "react-icons/io5";
+import { IoDocumentTextOutline, IoHardwareChipOutline } from "react-icons/io5";
 import { SlGraduation } from "react-icons/sl";
+import { WiStars } from "react-icons/wi";
 
-import styles from "./Home.module.css";
-import SolutionsComponent from "@/components/mainPageComponents/solutionsComponent";
-import NewsComponent from "@/components/mainPageComponents/newsComponent";
-import PriceComponent from "@/components/mainPageComponents/priceComponent";
 import MainpageFooter from "@/components/mainPageComponents/mainpageFooterComponent";
-import WhosUsingTest from "@/components/mainPageComponents/textComponent";
+import PriceComponent from "@/components/mainPageComponents/priceComponent";
+import SolutionsComponent from "@/components/mainPageComponents/solutionsComponent";
+import WhosUsingTest from "@/components/mainPageComponents/whosUsing";
 import { LanguageContext } from "@/context/LanguageContext";
 import { data } from "@/utils/mainpagelanguage";
+import styles from "./Home.module.css";
 
 export default function Home() {
   // Showcase text animation
@@ -58,7 +56,7 @@ export default function Home() {
     language === "MN" ? data[0].languages.mongolian : data[0].languages.english;
 
   return (
-    <NextUIProvider>
+    <ThemeProvider attribute="class" defaultTheme="dark">
       <main className="bg-black z-30">
         {/* Showcase header */}
         <section
@@ -185,7 +183,7 @@ export default function Home() {
                   </h2>
                   <div className="flex gap-3 mx-1 sm:ml-1 p-5 px-7 rounded-xl group hover:bg-gradient-to-l from-blue-600 to-cyan-500 hover:text-white duration-500">
                     <div className="hidden sm:flex flex-col items-center pt-1">
-                      <div className="h-4 w-4 bg-black rounded-xl group-hover:bg-white duration-500 group-hover:translate-y-44 lg:group-hover:translate-y-36 xl:group-hover:translate-y-40 2xl:group-hover:translate-y-52"></div>
+                      <div className="h-4 w-4 bg-black rounded-xl group-hover:bg-white duration-500 group-hover:translate-y-44 lg:group-hover:translate-y-32 xl:group-hover:translate-y-36 2xl:group-hover:translate-y-52"></div>
                       <div className="h-full w-px bg-black group-hover:bg-white duration-500"></div>
                     </div>
                     <div className="flex flex-col gap-5 box-border">
@@ -197,7 +195,7 @@ export default function Home() {
                   </div>
                   <div className="flex gap-3 mx-1 sm:ml-1 p-5 px-7 rounded-xl group hover:bg-gradient-to-l from-blue-600 to-cyan-500 hover:text-white duration-500">
                     <div className="hidden sm:flex flex-col items-center pt-1">
-                      <div className="h-4 w-4 bg-black rounded-xl group-hover:bg-white group-hover:translate-y-32 lg:group-hover:translate-y-24 xl:group-hover:translate-y-28 2xl:group-hover:translate-y-32 duration-500"></div>
+                      <div className="h-4 w-4 bg-black rounded-xl group-hover:bg-white group-hover:translate-y-32 lg:group-hover:translate-y-24 xl:group-hover:translate-y-24 2xl:group-hover:translate-y-32 duration-500"></div>
                       <div className="h-full w-px bg-black group-hover:bg-white duration-500"></div>
                     </div>
                     <div className="flex flex-col gap-5">
@@ -209,7 +207,7 @@ export default function Home() {
                   </div>
                   <div className="flex gap-3 mx-1 sm:ml-1 p-5 px-7 rounded-xl group hover:bg-gradient-to-l from-blue-600 to-cyan-500 hover:text-white duration-500">
                     <div className="hidden sm:flex flex-col items-center pt-1">
-                      <div className="h-4 w-4 bg-black rounded-xl group-hover:bg-white group-hover:translate-y-32 lg:group-hover:translate-y-28 2xl:group-hover:translate-y-40 duration-500"></div>
+                      <div className="h-4 w-4 bg-black rounded-xl group-hover:bg-white group-hover:translate-y-32 lg:group-hover:translate-y-24 xl:group-hover:translate-y-28 2xl:group-hover:translate-y-40 duration-500"></div>
                       <div className="h-full w-px bg-black group-hover:bg-white duration-500"></div>
                     </div>
                     <div className="flex flex-col gap-5">
@@ -288,7 +286,7 @@ export default function Home() {
                   <h3 className="w-3/4 text-base 2xl:text-xl font-semibold">
                     {content.partner.subTitle1}
                   </h3>
-                  <p className="h-1/3">{content.partner.subText2}</p>
+                  <p className="h-1/3">{content.partner.subText1}</p>
                   <div className="flex items-center gap-3 mt-5">
                     <a href="https://egulen.mn/" target="_blank">
                       <Image
@@ -420,7 +418,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <NewsComponent />
+            {/* <NewsComponent /> */}
           </div>
         </section>
 
@@ -428,9 +426,23 @@ export default function Home() {
         <section id="contact" data-textcolor="text-white">
           <div className="bg-[url('/img/backgrounds/footer_bg.png')] bg-cover bg-center bg-no-repeat w-full pb-20 pt-32 xl:pt-52">
             <MainpageFooter />
+            <div className="w-11/12 sm:w-4/5 xl:w-2/3 flex justify-center gap-5 mt-5 m-auto text-white/70 text-sm">
+              <a
+                href="https://www.termsfeed.com/live/523744b8-6eb3-425a-893a-482953eef05b"
+                className="hover:underline"
+              >
+                Terms of service
+              </a>
+              <a
+                href="https://www.termsfeed.com/live/957daac2-801e-4fda-83ef-ee9c22762288"
+                className="hover:underline"
+              >
+                Privacy policy
+              </a>
+            </div>
           </div>
         </section>
       </main>
-    </NextUIProvider>
+    </ThemeProvider>
   );
 }

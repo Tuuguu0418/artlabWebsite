@@ -5,7 +5,7 @@ export async function POST(req) {
 
   try {
     const response = await fetch(
-      "https://api.artlab.mn/inner/web/admin/posts",
+      `${process.env.NEXT_API_POST_URL}/admin/posts`,
       {
         method: "POST",
         headers: {
